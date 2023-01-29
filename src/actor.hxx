@@ -23,7 +23,7 @@ public:
         }
     }
 
-    virtual void processEventLoop() = 0;
+    virtual void start() = 0;
 
     Type getType() const
     {
@@ -45,6 +45,8 @@ protected:
         : _type(type)
         , _use_queue(useQueue)
         , _has_public_queue(hasPublicQueue) { }
+
+    virtual void processEventLoop() = 0;
     
     virtual void sendMessageInternal(Message& m) { };
 
