@@ -2,8 +2,9 @@
 
 #include "message.hxx"
 
-namespace ura
-{
+#include "rtl.hxx"
+
+URA_RTL_BEGIN
 
 class Actor
 {
@@ -52,7 +53,7 @@ protected:
 
     bool canSendMessage(Message& m)
     {
-        if (_use_queue && _has_public_queue)
+        if (_has_public_queue)
         {
             return true;
         }
@@ -73,4 +74,4 @@ private:
     bool _has_public_queue;
 };
 
-}   /* namespace ura */
+URA_RTL_END

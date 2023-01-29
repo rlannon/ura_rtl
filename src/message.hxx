@@ -2,8 +2,9 @@
 
 #include "generic.hxx"
 
-namespace ura
-{
+#include "rtl.hxx"
+
+URA_RTL_BEGIN
 
 class Actor;
 
@@ -28,6 +29,11 @@ public:
         return _return_address;
     }
 
+    Message copy() const
+    {
+        return Message(_sender, _return_address, _type, _value.copy(), _code);
+    }
+
     Message(Actor* sender, Actor* returnAddress, Type type, Generic value, unsigned int code)
         : _sender(sender)
         , _return_address(returnAddress)
@@ -44,4 +50,4 @@ private:
     unsigned int _code;
 };
 
-}   /* namespace ura */
+URA_RTL_END

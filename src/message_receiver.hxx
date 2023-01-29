@@ -1,7 +1,8 @@
 #pragma once
 
-namespace ura
-{
+#include "rtl.hxx"
+
+URA_RTL_BEGIN
 
 class MessageReceiver
 {
@@ -21,4 +22,4 @@ private:
     Type _type;
 };
 
-}   /* namespace ura */
+URA_RTL_END

@@ -6,8 +6,9 @@
 #include <deque>
 #include <mutex>
 
-namespace ura
-{
+#include "rtl.hxx"
+
+URA_RTL_BEGIN
 
 class Queue: public MessageReceiver
 {
@@ -23,4 +24,4 @@ public:
     void enqueue(const Message& m);
 };
 
-}   /* namespace ura */
+URA_RTL_END
