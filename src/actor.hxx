@@ -16,13 +16,7 @@ public:
         LISTENER
     };
 
-    virtual void sendMessage(Message m)
-    {
-        if (canSendMessage(m))
-        {
-            sendMessageInternal(m);
-        }
-    }
+    void sendMessage(Message m);
 
     virtual void start() = 0;
 
@@ -42,31 +36,14 @@ public:
     }
 
 protected:
-    Actor(const Type type, const bool useQueue, const bool hasPublicQueue)
-        : _type(type)
-        , _use_queue(useQueue)
-        , _has_public_queue(hasPublicQueue) { }
+    Actor(const Type type, const bool useQueue, const bool hasPublicQueue);
+    virtual ~Actor();
 
     virtual void processEventLoop() = 0;
     
-    virtual void sendMessageInternal(Message& m) { };
+    virtual void sendMessageInternal(Message& m) = 0;
 
-    bool canSendMessage(Message& m)
-    {
-        if (_has_public_queue)
-        {
-            return true;
-        }
-        else
-        {
-            Generic value;
-            Message error_message(this, nullptr, Message::Type::ERROR, value, 0);
-
-            m.getSender()->sendMessage(error_message);
-
-            return false;
-        }
-    }
+    bool canSendMessage(Message& m);
 
 private:
     Type _type;
