@@ -1,2 +1,4 @@
 .vscode/**
 main.cxx
+*.o
+*.out
