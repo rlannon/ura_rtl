@@ -11,13 +11,12 @@ class EventLoop: public Actor
 {
     Queue _queue;
 
-    virtual void sendMessageInternal(Message& m) override
-    {
-        _queue.enqueue(m);
-    }
+    virtual void sendMessageInternal(Message& m) override;
 
 public:
-    EventLoop() : Actor(Actor::Type::EVENT_LOOP, true, true) { }
+    virtual void start() override;
+
+    EventLoop();
 };
 
 URA_RTL_END
