@@ -2,3 +2,4 @@
 main.cxx
 *.o
 *.out
+*.a
