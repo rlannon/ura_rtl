@@ -15,6 +15,8 @@ class Queue: public MessageReceiver
     std::deque<Message> _queue;
     std::mutex _lock;
 
+    Message nextMessageInternal(const bool peek);
+
 public:
     const std::deque<Message>& getQueue() const
     {
@@ -22,6 +24,9 @@ public:
     }
 
     void enqueue(const Message& m);
+    bool hasMessages() const;
+    Message peekNextMessage();
+    Message nextMessage();
 };
 
 URA_RTL_END

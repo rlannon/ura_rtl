@@ -12,7 +12,7 @@ An event loop is an actor that processes messages from a queue. It may receive m
 
 ### Timer
 
-A timer is an actor that executes a single method at given intervals.
+A timer is an actor that executes a single method at given intervals. It is essentially an event loop that does not respond to messages.
 
 ### Listener
 

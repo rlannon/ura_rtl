@@ -2,10 +2,10 @@
 
 URA_RTL_BEGIN
 
-Actor::Actor(const Type type, const bool useQueue, const bool hasPublicQueue)
+Actor::Actor(const Type type, const bool use_queue, const bool has_public_queue)
     : _type(type)
-    , _use_queue(useQueue)
-    , _has_public_queue(hasPublicQueue) { }
+    , _use_queue(use_queue)
+    , _has_public_queue(has_public_queue) { }
 
 Actor::~Actor() { }
 

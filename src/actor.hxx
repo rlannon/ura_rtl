@@ -36,7 +36,7 @@ public:
     }
 
 protected:
-    Actor(const Type type, const bool useQueue, const bool hasPublicQueue);
+    Actor(const Type type, const bool use_queue, const bool has_public_queue);
     virtual ~Actor();
 
     virtual void processEventLoop() = 0;

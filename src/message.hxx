@@ -11,7 +11,7 @@ class Actor;
 class Message
 {
 public:
-    enum class Type
+    enum class Type: int
     {
         OK,
         ERROR,
@@ -29,9 +29,29 @@ public:
         return _return_address;
     }
 
+    Generic getValue()
+    {
+        return _value;
+    }
+
+    Type getType()
+    {
+        return _type;
+    }
+
+    unsigned int getCode()
+    {
+        return _code;
+    }
+
     Message copy() const
     {
-        return Message(_sender, _return_address, _type, _value.copy(), _code);
+        return Message(*this);
+    }
+
+    Message(const Message& other)
+        : Message(other._sender, other._return_address, other._type, other._value, other._code)
+    {
     }
 
     Message(Actor* sender, Actor* returnAddress, Type type, Generic value, unsigned int code)
@@ -40,6 +60,8 @@ public:
         , _type(type)
         , _value(value)
         , _code(code) { }
+    
+    ~Message() { }
 
 private:
     Actor* _sender;
