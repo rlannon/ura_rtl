@@ -1,4 +1,5 @@
 #include "timer.hxx"
+#include "error_codes.hxx"
 
 URA_RTL_BEGIN
 
@@ -15,6 +16,13 @@ void Timer::processEventLoop()
 
 void Timer::sendMessageInternal(Message& m)
 {
+    Actor* sender = m.getSender();
+    if (sender)
+    {
+        Message err(this, nullptr, Message::Type::ERROR, Generic(), ErrorCodes::CANNOT_RECEIVE_MESSAGES);
+        sender->sendMessage(std::move(err));
+    }
+
     return;
 }
 

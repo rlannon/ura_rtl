@@ -49,19 +49,11 @@ public:
         return Message(*this);
     }
 
-    Message(const Message& other)
-        : Message(other._sender, other._return_address, other._type, other._value, other._code)
-    {
-    }
-
-    Message(Actor* sender, Actor* returnAddress, Type type, Generic value, unsigned int code)
-        : _sender(sender)
-        , _return_address(returnAddress)
-        , _type(type)
-        , _value(value)
-        , _code(code) { }
+    Message(const Message& other);
+    Message(Message&& other);
+    Message(Actor* sender, Actor* returnAddress, Type type, Generic value, unsigned int code);
     
-    ~Message() { }
+    ~Message();
 
 private:
     Actor* _sender;
