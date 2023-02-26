@@ -1,8 +1,8 @@
 #pragma once
 
-#include "message.hxx"
-
 #include "rtl.hxx"
+#include "message.hxx"
+#include "messaging_policy.hxx"
 
 URA_RTL_BEGIN
 
@@ -84,10 +84,18 @@ protected:
      */
     bool canSendMessage(Message& m);
 
+    /**
+     * @brief Set the messaging policy for the actor
+     * 
+     * @param policy The new policy to use
+     */
+    void setMessagingPolicy(const MessagingPolicy::Policy& policy);
+
 private:
     Type _type;
     bool _use_queue;
     bool _has_public_queue;
+    const MessagingPolicy::Policy* _messaging_policy { &MessagingPolicy::DEFAULT_POLICY };
 };
 
 URA_RTL_END

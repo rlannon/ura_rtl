@@ -1,6 +1,8 @@
 #include "actor.hxx"
 #include "codes/error.hxx"
 
+#include <string>
+
 URA_RTL_BEGIN
 
 Actor::Actor(const Type type, const bool use_queue, const bool has_public_queue)
@@ -12,7 +14,7 @@ Actor::~Actor() { }
 
 void Actor::sendMessage(Message m)
 {
-    if (canSendMessage(m))
+    if (_messaging_policy->AdheresToPolicy(m, *this))
     {
         sendMessageInternal(m);
     }
@@ -21,7 +23,7 @@ void Actor::sendMessage(Message m)
         Message error_message(  this,
                                 nullptr,
                                 Message::Type::ERROR,
-                                "This thread does not accept messages",
+                                std::string("Message not allowed according to actor messaging policy"),
                                 Codes::Error::CANNOT_RECEIVE_MESSAGES );
 
         m.getSender()->sendMessage(error_message);
