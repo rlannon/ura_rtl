@@ -41,7 +41,7 @@ protected:
 
     virtual void processEventLoop() = 0;
     
-    virtual void sendMessageInternal(Message& m) = 0;
+    virtual void sendMessageInternal(Message& m);
 
     bool canSendMessage(Message& m);
 

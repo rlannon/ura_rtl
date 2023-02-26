@@ -18,7 +18,6 @@ private:
 
 protected:
     virtual void processEventLoop() override;
-    virtual void sendMessageInternal(Message& m) override;
 
     virtual void onExecute() = 0;
 

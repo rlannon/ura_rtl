@@ -1,4 +1,5 @@
 #include "actor.hxx"
+#include "codes/error.hxx"
 
 URA_RTL_BEGIN
 
@@ -17,6 +18,11 @@ void Actor::sendMessage(Message m)
     }
 }
 
+void Actor::sendMessageInternal(Message& m)
+{
+    return;
+}
+
 bool Actor::canSendMessage(Message& m)
 {
     if (_has_public_queue)
@@ -25,8 +31,11 @@ bool Actor::canSendMessage(Message& m)
     }
     else
     {
-        std::any value;
-        Message error_message(this, nullptr, Message::Type::ERROR, value, 0);
+        Message error_message(  this,
+                                nullptr,
+                                Message::Type::ERROR,
+                                "This thread does not accept messages",
+                                Codes::Error::CANNOT_RECEIVE_MESSAGES );
 
         m.getSender()->sendMessage(error_message);
 

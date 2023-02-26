@@ -1,10 +1,11 @@
 SRC_DIR=./src
+INCLUDE_DIR=./include
 OBJ_DIR=./bin
 SRC_FILES=$(wildcard $(SRC_DIR)/*.cxx)
 OBJ_FILES=$(patsubst %.cxx, $(OBJ_DIR)/%.o, $(notdir $(SRC_FILES)))
 cc=clang++
 cppversion=c++2a
-flags=-std=$(cppversion) -g
+flags=-std=$(cppversion) -g -I $(INCLUDE_DIR)
 link_flags=-lpthread $(flags)
 target=ura.a
 test_exe=ura_test.out

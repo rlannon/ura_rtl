@@ -1,10 +1,28 @@
 #include "event_loop.hxx"
+#include "rtl.hxx"
+#include "codes/start.hxx"
+#include "codes/stop.hxx"
 
 URA_RTL_BEGIN
 
 void EventLoop::sendMessageInternal(Message& m)
 {
-    _queue.enqueue(m);
+    if (!running() && 
+        m.getType() == Message::Type::START &&
+        m.getCode() == Codes::Start::START_ACTOR)
+    {
+        start();
+    }
+    else if (running() &&
+            m.getType() == Message::Type::STOP &&
+            m.getCode() == Codes::Stop::STOP_ACTOR)
+    {
+        stop();
+    }
+    else
+    {
+        _queue.enqueue(m);
+    }
 }
 
 void EventLoop::onExecute()

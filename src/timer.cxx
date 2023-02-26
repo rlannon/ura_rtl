@@ -1,5 +1,5 @@
 #include "timer.hxx"
-#include "error_codes.hxx"
+#include "codes/error.hxx"
 
 #include <any>
 
@@ -11,18 +11,6 @@ void Timer::processEventLoop()
     {
         onExecute();
         std::this_thread::sleep_for(_interval);
-    }
-
-    return;
-}
-
-void Timer::sendMessageInternal(Message& m)
-{
-    Actor* sender = m.getSender();
-    if (sender)
-    {
-        Message err(this, nullptr, Message::Type::ERROR, std::any(), ErrorCodes::CANNOT_RECEIVE_MESSAGES);
-        sender->sendMessage(std::move(err));
     }
 
     return;
