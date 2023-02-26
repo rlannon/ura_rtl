@@ -11,16 +11,16 @@ URA_RTL_BEGIN
 class EventLoop: public Timer
 {
     Queue _queue;
-    std::function<void()> _main_event;
-    std::function<void(Queue& message_queue)> _message_handler;
-
+    
     virtual void sendMessageInternal(Message& m) override;
-    void eventHandler();
+    virtual void onExecute() override;
+
+protected:
+    virtual void eventLoop() = 0;
+    virtual void handleMessage(const Message& message) = 0;
 
 public:
-    EventLoop(  std::function<void()> main_event,
-                std::function<void(Queue& message_queue)> message_handler,
-                const std::chrono::milliseconds interval);
+    EventLoop(const std::chrono::milliseconds interval);
     virtual ~EventLoop();
 };
 

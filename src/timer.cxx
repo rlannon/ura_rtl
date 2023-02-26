@@ -7,7 +7,7 @@ void Timer::processEventLoop()
 {
     while (_running)
     {
-        _callback();
+        onExecute();
         std::this_thread::sleep_for(_interval);
     }
 
@@ -46,21 +46,18 @@ void Timer::stop()
     _thread.join();
 }
 
-Timer::Timer(   std::function<void()> callback,
-                const std::chrono::milliseconds interval,
+Timer::Timer(   const std::chrono::milliseconds interval,
                 const Actor::Type type,
                 const bool use_queue,
                 const bool has_public_queue )
     : Actor(type, use_queue, has_public_queue)
-    , _callback(callback)
     , _interval(interval)
     , _running(false)
 {
 }
 
-Timer::Timer(std::function<void()> callback, const std::chrono::milliseconds interval)
+Timer::Timer(const std::chrono::milliseconds interval)
     : Actor(Actor::Type::TIMER, false, false)
-    , _callback(callback)
     , _interval(interval)
     , _running(false)
 {

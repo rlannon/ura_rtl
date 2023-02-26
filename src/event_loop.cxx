@@ -7,22 +7,19 @@ void EventLoop::sendMessageInternal(Message& m)
     _queue.enqueue(m);
 }
 
-void EventLoop::eventHandler()
+void EventLoop::onExecute()
 {
-    _main_event();
-    _message_handler(_queue);    
+    eventLoop();
+
+    Message m = _queue.nextMessage();
+    handleMessage(m);    
 }
 
-EventLoop::EventLoop(   std::function<void()> main_event,
-                        std::function<void(Queue& message_queue)> message_handler,
-                        const std::chrono::milliseconds interval)
-    : Timer([this]() { this->eventHandler(); },
-            interval,
+EventLoop::EventLoop(const std::chrono::milliseconds interval)
+    : Timer(interval,
             Actor::Type::EVENT_LOOP,
             true,
-            true)
-    , _main_event(main_event)
-    , _message_handler(message_handler) { }
+            true) { }
 
 EventLoop::~EventLoop() { }
 
