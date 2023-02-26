@@ -27,7 +27,8 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cxx
 	$(cc) $(flags) -c -o $@ $<
 
 clean:
-	rm bin/*.o
-	rm ./$(target)
+	rm -f bin/*.o
+	rm -f ./$(target)
+	rm -f ./$(test_exe)
 
 .PHONY: $(target) clean
