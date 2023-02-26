@@ -20,4 +20,4 @@ A listener is an actor that simply awaits a message and responds to it. Unlike a
 
 ## Messages
 
-Messages are objects that actors use to communicate. They encode data using a generic type interface, implemented through NaN-boxing.
+Messages are objects that actors use to communicate. They encode data using a generic type interface.

@@ -1,6 +1,7 @@
 #include "message.hxx"
 
 #include <utility>
+#include <any>
 
 URA_RTL_BEGIN
 
@@ -8,7 +9,7 @@ Message::Message(const Message& other)
     : _sender(other._sender)
     , _return_address(other._return_address)
     , _type(other._type)
-    , _value(other._value.copy())
+    , _value(other._value)
     , _code(other._code) { }
 
 Message::Message(Message&& other)
@@ -18,7 +19,7 @@ Message::Message(Message&& other)
     , _value(std::move(other._value))
     , _code(other._code) { }
 
-Message::Message(Actor* sender, Actor* returnAddress, Type type, Generic value, unsigned int code)
+Message::Message(Actor* sender, Actor* returnAddress, Type type, std::any value, unsigned int code)
     : _sender(sender)
     , _return_address(returnAddress)
     , _type(type)

@@ -1,6 +1,7 @@
+#include "rtl.hxx"
 #include "queue.hxx"
 
-#include "rtl.hxx"
+#include <any>
 
 URA_RTL_BEGIN
 
@@ -24,7 +25,7 @@ Message Queue::nextMessageInternal(const bool peek)
         Message error_message(  nullptr,
                                 nullptr,
                                 ura::Message::Type::ERROR,
-                                ura::Generic(),
+                                std::any(),
                                 1 );
         return error_message;
     }

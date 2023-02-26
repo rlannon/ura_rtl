@@ -1,8 +1,8 @@
 #pragma once
 
-#include "generic.hxx"
-
 #include "rtl.hxx"
+
+#include <any>
 
 URA_RTL_BEGIN
 
@@ -39,9 +39,14 @@ public:
         return _return_address;
     }
 
-    Generic getValue() const
+    const std::any& getValue() const
     {
-        return _value.copy();
+        return _value;
+    }
+
+    std::any getValue()
+    {
+        return _value;
     }
 
     Type getType() const
@@ -61,7 +66,7 @@ public:
 
     Message(const Message& other);
     Message(Message&& other);
-    Message(Actor* sender, Actor* returnAddress, Type type, Generic value, unsigned int code);
+    Message(Actor* sender, Actor* returnAddress, Type type, std::any value, unsigned int code);
     
     ~Message();
 
@@ -69,7 +74,7 @@ private:
     Actor* _sender;
     Actor* _return_address;
 
-    Generic _value;
+    std::any _value;
     Type _type;
     unsigned int _code;
 };

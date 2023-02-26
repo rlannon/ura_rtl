@@ -25,7 +25,7 @@ bool Actor::canSendMessage(Message& m)
     }
     else
     {
-        Generic value;
+        std::any value;
         Message error_message(this, nullptr, Message::Type::ERROR, value, 0);
 
         m.getSender()->sendMessage(error_message);
