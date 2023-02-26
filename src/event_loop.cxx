@@ -29,8 +29,11 @@ void EventLoop::onExecute()
 {
     eventLoop();
 
-    Message m = _queue.nextMessage();
-    handleMessage(m);    
+    if (_queue.hasMessages())
+    {
+        Message m = _queue.nextMessage();
+        handleMessage(m);
+    }
 }
 
 EventLoop::EventLoop(const std::chrono::milliseconds interval)
