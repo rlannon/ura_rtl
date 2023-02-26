@@ -29,7 +29,7 @@ void EventLoop::onExecute()
 {
     eventLoop();
 
-    if (_queue.hasMessages())
+    while (_queue.hasMessages())
     {
         Message m = _queue.nextMessage();
         handleMessage(m);

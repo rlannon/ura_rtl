@@ -16,7 +16,7 @@ bool Queue::hasMessages() const
     return !_queue.empty();
 }
 
-Message Queue::nextMessageInternal(const bool peek)
+Message Queue::fetchMessage(const bool peek)
 {
     std::lock_guard<std::mutex> guard(_lock);
     
@@ -44,12 +44,12 @@ Message Queue::nextMessageInternal(const bool peek)
 
 Message Queue::peekNextMessage()
 {
-    return nextMessageInternal(true);
+    return fetchMessage(true);
 }
 
 Message Queue::nextMessage()
 {
-    return nextMessageInternal(false);
+    return fetchMessage(false);
 }
 
 URA_RTL_END

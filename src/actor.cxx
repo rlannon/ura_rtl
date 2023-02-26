@@ -16,19 +16,6 @@ void Actor::sendMessage(Message m)
     {
         sendMessageInternal(m);
     }
-}
-
-void Actor::sendMessageInternal(Message& m)
-{
-    return;
-}
-
-bool Actor::canSendMessage(Message& m)
-{
-    if (_has_public_queue)
-    {
-        return true;
-    }
     else
     {
         Message error_message(  this,
@@ -38,9 +25,17 @@ bool Actor::canSendMessage(Message& m)
                                 Codes::Error::CANNOT_RECEIVE_MESSAGES );
 
         m.getSender()->sendMessage(error_message);
-
-        return false;
     }
+}
+
+void Actor::sendMessageInternal(Message& m)
+{
+    return;
+}
+
+bool Actor::canSendMessage(Message& m)
+{
+    return _has_public_queue /* todo: messaging policy */;
 }
 
 URA_RTL_END

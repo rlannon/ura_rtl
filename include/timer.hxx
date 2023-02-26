@@ -12,13 +12,20 @@ class Timer: public Actor
 {
 private:
     std::chrono::milliseconds _interval;   /**< Number of ms between invocations */
-    bool _running;
+    bool _running;  /**< Whether the thread is running */
     std::mutex _running_lock;
     std::thread _thread;
 
-protected:
     virtual void processEventLoop() override;
 
+protected:
+    /**
+     * @brief The method that gets executed every time the timer runs.
+     * 
+     * Any timer actors should inherit from this class and override the
+     * `onExecute` method.
+     * 
+     */
     virtual void onExecute() = 0;
 
     Timer(  const std::chrono::milliseconds interval,
@@ -28,7 +35,7 @@ protected:
 
 public:
     virtual void start() override;
-    void stop();
+    virtual void stop() override;
 
     bool running() const
     {

@@ -15,17 +15,35 @@ class Queue: public MessageReceiver
     std::deque<Message> _queue;
     std::mutex _lock;
 
-    Message nextMessageInternal(const bool peek);
+    Message fetchMessage(const bool peek);  /**< A helper method to simplify message fetching */
 
 public:
-    const std::deque<Message>& getQueue() const
-    {
-        return _queue;
-    }
-
+    /**
+     * @brief Adds a message to the queue
+     * 
+     * A copy of the message will be added to the queue.
+     * 
+     * @param m The message to add
+     */
     void enqueue(const Message& m);
+    /**
+     * @brief Whether the queue has messages to be processed.
+     * 
+     * @return true If there are messages
+     * @return false If there are not
+     */
     bool hasMessages() const;
+    /**
+     * @brief Fetches the next message without removing it from the queue.
+     * 
+     * @return Message The next message to be processed.
+     */
     Message peekNextMessage();
+    /**
+     * @brief Fetches the next message and removes it from the queue.
+     * 
+     * @return Message The next message to be processed.
+     */
     Message nextMessage();
 };
 
