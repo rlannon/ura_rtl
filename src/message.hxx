@@ -19,9 +19,19 @@ public:
         STOP,
     };
 
+    const Actor* getSender() const
+    {
+        return _sender;
+    }
+
     Actor* getSender()
     {
         return _sender;
+    }
+
+    const Actor* getReturnAddress() const
+    {
+        return _return_address;
     }
 
     Actor* getReturnAddress()
@@ -29,17 +39,17 @@ public:
         return _return_address;
     }
 
-    Generic getValue()
+    Generic getValue() const
     {
-        return _value;
+        return _value.copy();
     }
 
-    Type getType()
+    Type getType() const
     {
         return _type;
     }
 
-    unsigned int getCode()
+    unsigned int getCode() const
     {
         return _code;
     }
