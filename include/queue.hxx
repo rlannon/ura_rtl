@@ -25,7 +25,7 @@ public:
      * 
      * @param m The message to add
      */
-    void enqueue(const Message& m);
+    virtual void sendMessage(Message& m) override;
     /**
      * @brief Whether the queue has messages to be processed.
      * 
@@ -45,6 +45,9 @@ public:
      * @return Message The next message to be processed.
      */
     Message nextMessage();
+
+    Queue();
+    virtual ~Queue();
 };
 
 URA_RTL_END

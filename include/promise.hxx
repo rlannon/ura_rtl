@@ -7,7 +7,13 @@ URA_RTL_BEGIN
 
 class Promise: public MessageReceiver
 {
-    // todo:
+    bool _resolved {false};
+
+public:
+    void resolve();
+
+    Promise();
+    virtual ~Promise();
 };
 
 URA_RTL_END

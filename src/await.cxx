@@ -5,25 +5,23 @@
 
 URA_RTL_BEGIN
 
-void await(Promise& p, Message& m, Actor& recipient)
+void await(Message& m, Actor& recipient)
 {
-    // todo:
-}
-
-void await(Promise& p)
-{
-    // todo:
-}
-
-void await_forward(Promise& p, Message& m, Actor& recipient)
-{
-    // todo:
+    recipient.sendMessage(m);
 }
 
 void await_meanwhile(Promise& p, Message& m, Actor& recipient)
 {
     // todo:
+
+    p.resolve();
 }
 
+void await(Promise& p)
+{
+    // todo:
+
+    p.resolve();
+}
 
 URA_RTL_END

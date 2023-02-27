@@ -23,7 +23,9 @@ public:
     /**
      * @brief Whether the given message adheres to the current policy.
      * 
-     * The default policy only checks whether the recipient can accept messages (has a public queue).
+     * The default policy only checks whether the recipient can accept messages (has a public queue),
+     * or that the message is a `START` or `STOP` message (which will simply invoke `start()`
+     * or `stop()`) as well as acknowledgements.
      * 
      * @param m The message being sent
      * @param recipient The intended recipient of the message

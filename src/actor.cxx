@@ -6,13 +6,14 @@
 URA_RTL_BEGIN
 
 Actor::Actor(const Type type, const bool use_queue, const bool has_public_queue)
-    : _type(type)
+    : MessageReceiver(MessageReceiver::Type::ACTOR)
+    , _type(type)
     , _use_queue(use_queue)
     , _has_public_queue(has_public_queue) { }
 
 Actor::~Actor() { }
 
-void Actor::sendMessage(Message m)
+void Actor::sendMessage(Message& m)
 {
     if (_messaging_policy->AdheresToPolicy(m, *this))
     {
@@ -28,16 +29,6 @@ void Actor::sendMessage(Message m)
 
         m.getSender()->sendMessage(error_message);
     }
-}
-
-void Actor::sendMessageInternal(Message& m)
-{
-    return;
-}
-
-bool Actor::canSendMessage(Message& m)
-{
-    return _has_public_queue /* todo: messaging policy */;
 }
 
 URA_RTL_END

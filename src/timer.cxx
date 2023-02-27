@@ -1,5 +1,6 @@
 #include "timer.hxx"
 #include "codes/error.hxx"
+#include "codes/acknowledge.hxx"
 
 #include <any>
 
@@ -14,6 +15,41 @@ void Timer::processEventLoop()
     }
 
     return;
+}
+
+void Timer::sendMessageInternal(Message& m)
+{
+    // Only respond to START and STOP messages
+    // All others should be ignored
+    if (m.getType() == Message::Type::START)
+    {
+        start();
+    }
+    else if (m.getType() == Message::Type::STOP)
+    {
+        stop();
+    }
+    else
+    {
+        return;
+    }
+
+    // send an acknowledgement message back
+    //
+    // todo: allow error messages to be ignored here...we don't want to
+    // create a situation where two threads continually message each other
+    // that they can't accept messages
+    //
+    if (m.getReturnAddress())
+    {
+        Message ack(this,
+                    nullptr,
+                    Message::Type::ACKNOWLEDGE,
+                    0,
+                    Codes::Acknowledge::REQUEST_HANDLED);
+
+        m.getReturnAddress()->sendMessage(ack);
+    }
 }
 
 void Timer::start()

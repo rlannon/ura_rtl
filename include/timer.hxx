@@ -17,6 +17,7 @@ private:
     std::thread _thread;
 
     virtual void processEventLoop() override;
+    virtual void sendMessageInternal(Message& m) override;
 
 protected:
     /**

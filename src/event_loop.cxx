@@ -2,6 +2,7 @@
 #include "rtl.hxx"
 #include "codes/start.hxx"
 #include "codes/stop.hxx"
+#include "codes/acknowledge.hxx"
 
 URA_RTL_BEGIN
 
@@ -21,7 +22,7 @@ void EventLoop::sendMessageInternal(Message& m)
     }
     else
     {
-        _queue.enqueue(m);
+        _queue.sendMessage(m);
     }
 }
 
@@ -33,6 +34,18 @@ void EventLoop::onExecute()
     {
         Message m = _queue.nextMessage();
         handleMessage(m);
+
+        // todo: see timer.cxx:sendMessageInternal
+        if (m.getReturnAddress())
+        {
+            Message ack(this, 
+                        nullptr,
+                        Message::Type::ACKNOWLEDGE,
+                        0,
+                        Codes::Acknowledge::REQUEST_HANDLED);
+
+            m.getReturnAddress()->sendMessage(ack);
+        }
     }
 }
 

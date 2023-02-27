@@ -3,10 +3,11 @@
 #include "rtl.hxx"
 #include "message.hxx"
 #include "messaging_policy.hxx"
+#include "message_receiver.hxx"
 
 URA_RTL_BEGIN
 
-class Actor
+class Actor: public MessageReceiver
 {
 public:
     enum class Type
@@ -16,7 +17,7 @@ public:
         LISTENER
     };
 
-    void sendMessage(Message m);
+    virtual void sendMessage(Message& m) override;
 
     /**
      * @brief Starts the actor's event loop and message processing.
@@ -62,27 +63,12 @@ protected:
     /**
      * @brief Performs the work of sending a message to this actor.
      * 
-     * This method should be implemented if the actor accepts messages.
-     * By default it does nothing. If the actor accepts messages but
-     * does not override this method, all messages will get lost in
-     * the ether!
+     * If the actor does not accept messages, this method may do nothing.
+     * However, actors should generally accept `START` and `STOP` messages.
      * 
      * @param m The message to send.
      */
-    virtual void sendMessageInternal(Message& m);
-    /**
-     * @brief Whether the given message can be sent to the thread.
-     * 
-     * This is based on the actor's _messaging policy._ This determines
-     * whether the actor can accept messages, what types of messages it
-     * can accept, and how many it can process at a time. 
-     * 
-     * @param m The message to be sent
-     * @return true If the message can be sent
-     * @return false If the thread does not accept messages or the
-     * type of message supplied
-     */
-    bool canSendMessage(Message& m);
+    virtual void sendMessageInternal(Message& m) = 0;
 
     /**
      * @brief Set the messaging policy for the actor
@@ -95,6 +81,10 @@ private:
     Type _type;
     bool _use_queue;
     bool _has_public_queue;
+    /**
+     * @brief The messaging policy for the actor.
+     *
+     */
     const MessagingPolicy::Policy* _messaging_policy { &MessagingPolicy::DEFAULT_POLICY };
 };
 

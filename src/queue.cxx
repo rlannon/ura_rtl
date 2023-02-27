@@ -5,7 +5,7 @@
 
 URA_RTL_BEGIN
 
-void Queue::enqueue(const Message& m)
+void Queue::sendMessage(Message& m)
 {
     std::lock_guard<std::mutex> guard(_lock);
     _queue.push_back(m.copy());
@@ -51,5 +51,10 @@ Message Queue::nextMessage()
 {
     return fetchMessage(false);
 }
+
+Queue::Queue()
+    : MessageReceiver(MessageReceiver::Type::QUEUE) { }
+
+Queue::~Queue() { }
 
 URA_RTL_END

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "rtl.hxx"
+#include "message_receiver.hxx"
 
 #include <any>
 
@@ -17,6 +18,7 @@ public:
         ERROR,
         START,
         STOP,
+        ACKNOWLEDGE,
     };
 
     const Actor* getSender() const
@@ -29,12 +31,12 @@ public:
         return _sender;
     }
 
-    const Actor* getReturnAddress() const
+    const MessageReceiver* getReturnAddress() const
     {
         return _return_address;
     }
 
-    Actor* getReturnAddress()
+    MessageReceiver* getReturnAddress()
     {
         return _return_address;
     }
@@ -66,13 +68,13 @@ public:
 
     Message(const Message& other);
     Message(Message&& other);
-    Message(Actor* sender, Actor* returnAddress, Type type, std::any value, unsigned int code);
+    Message(Actor* sender, MessageReceiver* return_address, Type type, std::any value, unsigned int code);
     
     ~Message();
 
 private:
     Actor* _sender;
-    Actor* _return_address;
+    MessageReceiver* _return_address;
 
     std::any _value;
     Type _type;

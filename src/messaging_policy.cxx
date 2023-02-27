@@ -11,7 +11,10 @@ const Policy DEFAULT_POLICY { };
 
 bool Policy::AdheresToPolicy(const Message& m, const Actor& recipient) const
 {
-    return recipient.hasPublicQueue();
+    return  recipient.hasPublicQueue() ||
+            m.getType() == Message::Type::START ||
+            m.getType() == Message::Type::STOP ||
+            m.getType() == Message::Type::ACKNOWLEDGE;
 }
 
 }   /* namespace MessagingPolicy */
