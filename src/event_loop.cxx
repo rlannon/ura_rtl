@@ -36,7 +36,13 @@ void EventLoop::onExecute()
     {
         Message m = _queue.front();
         _queue.pop_front();
-        handleMessage(m);
+        
+        Message response = handleMessage(m);
+
+        if (m.getReturnAddress())
+        {
+            m.getReturnAddress()->sendMessage(response);
+        }
     }
 }
 
@@ -46,6 +52,12 @@ EventLoop::EventLoop(const std::chrono::milliseconds interval)
             true,
             true) { }
 
-EventLoop::~EventLoop() { }
+EventLoop::~EventLoop()
+{
+    if (running())
+    {
+        stop();
+    }
+}
 
 URA_RTL_END

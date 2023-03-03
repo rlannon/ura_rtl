@@ -7,18 +7,27 @@ URA_RTL_BEGIN
 
 void await(Message& m, Actor& recipient)
 {
-    recipient.sendMessage(m);
-}
-
-void await_meanwhile(Promise& p, Message& m, Actor& recipient)
-{
+    Promise p;
     m.returnTo(&p);
+
     recipient.sendMessage(m);
     p.waitUntilResolved();
 }
 
+void await(Promise& p, Message& m, Actor& recipient)
+{
+    m.returnTo(&p);
+    recipient.sendMessage(m);
+}
+
 void await(Promise& p)
 {
+    p.waitUntilResolved();
+}
+
+void meanwhile(Promise& p, std::function<void()> to_execute)
+{
+    to_execute();
     p.waitUntilResolved();
 }
 

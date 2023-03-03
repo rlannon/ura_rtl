@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "rtl.hxx"
 
 /**
@@ -38,5 +40,13 @@ void await(Promise& p, Message& m, Actor& recipient);
  * 
  */
 void await(Promise& p);
+
+/**
+ * @brief Runs the specified code before waiting for the given promise to be resolved.
+ * 
+ * @param p The promise this block is waiting on.
+ * @param to_execute The code to execute while waiting.
+ */
+void meanwhile(Promise& p, std::function<void()> to_execute);
 
 URA_RTL_END

@@ -35,8 +35,9 @@ protected:
      * and override this method.
      * 
      * @param message The message to process.
+     * @return Message The thread's response to the message.
      */
-    virtual void handleMessage(Message& message) = 0;
+    virtual Message handleMessage(Message& message) = 0;
 
 public:
     EventLoop(const std::chrono::milliseconds interval);
