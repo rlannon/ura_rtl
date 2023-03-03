@@ -1,6 +1,6 @@
 #include "timer.hxx"
 #include "codes/error.hxx"
-#include "codes/acknowledge.hxx"
+#include "codes/response.hxx"
 
 #include <any>
 
@@ -44,9 +44,9 @@ void Timer::sendMessageInternal(Message& m)
     {
         Message ack(this,
                     nullptr,
-                    Message::Type::ACKNOWLEDGE,
+                    Message::Type::RESPONSE,
                     0,
-                    Codes::Acknowledge::REQUEST_HANDLED);
+                    Codes::Response::Acknowledge);
 
         m.getReturnAddress()->sendMessage(ack);
     }

@@ -13,8 +13,7 @@ bool Policy::AdheresToPolicy(const Message& m, const Actor& recipient) const
 {
     return  recipient.hasPublicQueue() ||
             m.getType() == Message::Type::START ||
-            m.getType() == Message::Type::STOP ||
-            m.getType() == Message::Type::ACKNOWLEDGE;
+            m.getType() == Message::Type::STOP;
 }
 
 }   /* namespace MessagingPolicy */

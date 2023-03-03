@@ -18,7 +18,8 @@ public:
         ERROR,
         START,
         STOP,
-        ACKNOWLEDGE,
+        REQUEST,
+        RESPONSE,
     };
 
     const Actor* getSender() const

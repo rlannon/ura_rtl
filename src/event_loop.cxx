@@ -2,7 +2,6 @@
 #include "rtl.hxx"
 #include "codes/start.hxx"
 #include "codes/stop.hxx"
-#include "codes/acknowledge.hxx"
 
 URA_RTL_BEGIN
 
@@ -38,18 +37,6 @@ void EventLoop::onExecute()
         Message m = _queue.front();
         _queue.pop_front();
         handleMessage(m);
-
-        // todo: see timer.cxx:sendMessageInternal
-        if (m.getReturnAddress())
-        {
-            Message ack(this, 
-                        nullptr,
-                        Message::Type::ACKNOWLEDGE,
-                        0,
-                        Codes::Acknowledge::REQUEST_HANDLED);
-
-            m.getReturnAddress()->sendMessage(ack);
-        }
     }
 }
 
