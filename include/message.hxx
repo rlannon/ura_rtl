@@ -41,6 +41,11 @@ public:
         return _return_address;
     }
 
+    void returnTo(MessageReceiver* return_address)
+    {
+        _return_address = return_address;
+    }
+
     const std::any& getValue() const
     {
         return _value;
@@ -65,6 +70,9 @@ public:
     {
         return Message(*this);
     }
+
+    Message& operator=(const Message& other);
+    Message& operator=(Message&& other);
 
     Message(const Message& other);
     Message(Message&& other);

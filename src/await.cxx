@@ -12,16 +12,14 @@ void await(Message& m, Actor& recipient)
 
 void await_meanwhile(Promise& p, Message& m, Actor& recipient)
 {
-    // todo:
-
-    p.resolve();
+    m.returnTo(&p);
+    recipient.sendMessage(m);
+    p.waitUntilResolved();
 }
 
 void await(Promise& p)
 {
-    // todo:
-
-    p.resolve();
+    p.waitUntilResolved();
 }
 
 URA_RTL_END

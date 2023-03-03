@@ -5,6 +5,28 @@
 
 URA_RTL_BEGIN
 
+Message& Message::operator=(const Message& other)
+{
+    _sender = other._sender;
+    _return_address = other._return_address;
+    _type = other._type;
+    _value = other._value;
+    _code = other._code;
+
+    return *this;
+}
+
+Message& Message::operator=(Message&& other)
+{
+    _sender = other._sender;
+    _return_address = other._return_address;
+    _type = other._type;
+    _value = std::move(other._value);
+    _code = other._code;
+
+    return *this;
+}
+
 Message::Message(const Message& other)
     : _sender(other._sender)
     , _return_address(other._return_address)

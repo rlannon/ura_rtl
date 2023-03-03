@@ -22,7 +22,8 @@ void EventLoop::sendMessageInternal(Message& m)
     }
     else
     {
-        _queue.sendMessage(m);
+        std::lock_guard<std::mutex> guard(_queue_lock);
+        _queue.push_back(m);
     }
 }
 
@@ -30,9 +31,12 @@ void EventLoop::onExecute()
 {
     eventLoop();
 
-    while (_queue.hasMessages())
+    std::lock_guard<std::mutex> guard(_queue_lock);
+
+    while (!_queue.empty())
     {
-        Message m = _queue.nextMessage();
+        Message m = _queue.front();
+        _queue.pop_front();
         handleMessage(m);
 
         // todo: see timer.cxx:sendMessageInternal

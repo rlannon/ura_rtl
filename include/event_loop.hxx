@@ -1,16 +1,19 @@
 #pragma once
 
 #include "rtl.hxx"
-
 #include "actor.hxx"
-#include "queue.hxx"
+#include "message.hxx"
 #include "timer.hxx"
+
+#include <deque>
+#include <mutex>
 
 URA_RTL_BEGIN
 
 class EventLoop: public Timer
 {
-    Queue _queue;   /**< The actor's message queue */
+    std::deque<Message> _queue;   /**< The actor's message queue */
+    std::mutex _queue_lock;
     
     virtual void sendMessageInternal(Message& m) override;
     virtual void onExecute() override;
