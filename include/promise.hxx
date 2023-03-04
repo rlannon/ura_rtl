@@ -19,6 +19,7 @@ public:
     virtual void sendMessage(Message& m) override;
     const Message* getMessage() const;
     void waitUntilResolved();
+    bool isResolved() const;
 
     Promise();
     virtual ~Promise();

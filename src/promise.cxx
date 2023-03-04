@@ -22,6 +22,11 @@ void Promise::waitUntilResolved()
     _resolve_lock.acquire();
 }
 
+bool Promise::isResolved() const
+{
+    return _resolved;
+}
+
 Promise::Promise() 
     : MessageReceiver(MessageReceiver::Type::PROMISE)
     , _resolved(false) { }
