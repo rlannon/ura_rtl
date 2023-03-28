@@ -69,23 +69,31 @@ void Timer::notifyThreadUrgentMessage()
     _done_cv.notify_one();
 }
 
-void Timer::start()
+void Timer::start(const uint8_t priority)
 {
     {
         std::lock_guard<std::mutex> guard(_running_lock);
         _running = true;
-        notifyThreadUrgentMessage();
+        
+        if (priority==priority::URGENT)
+        {
+            notifyThreadUrgentMessage();
+        }
     }
 
     _thread = std::thread(&Timer::processEventLoop, this);
 }
 
-void Timer::stop()
+void Timer::stop(const uint8_t priority)
 {
     {
         std::lock_guard<std::mutex> guard(_running_lock);
         _running = false;
-        notifyThreadUrgentMessage();
+        
+        if (priority==priority::URGENT)
+        {
+            notifyThreadUrgentMessage();
+        }
     }
 
     _thread.join();

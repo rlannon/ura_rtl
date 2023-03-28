@@ -4,9 +4,9 @@ URA_RTL_BEGIN
 
 void Listener::processEventLoop() { }
 
-void Listener::start() { }
+void Listener::start(const uint8_t priority) { }
 
-void Listener::stop() { }
+void Listener::stop(const uint8_t priority) { }
 
 void Listener::sendMessageInternal(Message& m)
 {

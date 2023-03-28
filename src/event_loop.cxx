@@ -10,13 +10,13 @@ void EventLoop::sendMessageInternal(Message& m)
         m.getType() == Message::Type::START &&
         m.getCode() == StandardCodes::START_ACTOR)
     {
-        start();
+        start(m.getPriority());
     }
     else if (running() &&
             m.getType() == Message::Type::STOP &&
             m.getCode() == StandardCodes::STOP_ACTOR)
     {
-        stop();
+        stop(m.getPriority());
     }
     else
     {

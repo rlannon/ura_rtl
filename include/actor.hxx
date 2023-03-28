@@ -3,6 +3,7 @@
 #include "rtl.hxx"
 #include "message.hxx"
 #include "message_receiver.hxx"
+#include "priority.hxx"
 
 URA_RTL_BEGIN
 
@@ -23,14 +24,14 @@ public:
      * 
      * Actors should also accept a START message to perform this function.
      */
-    virtual void start() = 0;
+    virtual void start(const uint8_t priority=priority::URGENT) = 0;
 
     /**
      * @brief Stops the actor's event loop and message processing.
      * 
      * Actors should also accept a STOP message to perform this function.
      */
-    virtual void stop() = 0;
+    virtual void stop(const uint8_t priority=priority::URGENT) = 0;
 
     Type getType() const
     {

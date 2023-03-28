@@ -1,3 +1,5 @@
+#pragma once
+
 #include "rtl.hxx"
 
 #include <cinttypes>

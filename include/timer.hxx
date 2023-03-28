@@ -42,8 +42,8 @@ protected:
             const bool has_public_queue );
 
 public:
-    virtual void start() override final;
-    virtual void stop() override final;
+    virtual void start(const uint8_t priority=priority::URGENT) override final;
+    virtual void stop(const uint8_t priority=priority::URGENT) override final;
 
     bool running() const
     {
