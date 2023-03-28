@@ -1,21 +1,22 @@
 #include "event_loop.hxx"
 #include "rtl.hxx"
-#include "codes/start.hxx"
-#include "codes/stop.hxx"
+#include "codes.hxx"
 
 URA_RTL_BEGIN
 
 void EventLoop::sendMessageInternal(Message& m)
 {
+    // todo: call notifyThreadUrgentMessage() if we have an urgent message...
+
     if (!running() && 
         m.getType() == Message::Type::START &&
-        m.getCode() == Codes::Start::START_ACTOR)
+        m.getCode() == StandardCodes::START_ACTOR)
     {
         start();
     }
     else if (running() &&
             m.getType() == Message::Type::STOP &&
-            m.getCode() == Codes::Stop::STOP_ACTOR)
+            m.getCode() == StandardCodes::STOP_ACTOR)
     {
         stop();
     }

@@ -1,5 +1,5 @@
 #include "actor.hxx"
-#include "codes/error.hxx"
+#include "codes.hxx"
 
 #include <string>
 
@@ -15,7 +15,7 @@ Actor::~Actor() { }
 
 void Actor::sendMessage(Message& m)
 {
-    if (_messaging_policy->AdheresToPolicy(m, *this))
+    if (adheresToMessagingPolicy(m))
     {
         sendMessageInternal(m);
     }
@@ -25,10 +25,17 @@ void Actor::sendMessage(Message& m)
                                 nullptr,
                                 Message::Type::ERROR,
                                 std::string("Message not allowed according to actor messaging policy"),
-                                Codes::Error::CANNOT_RECEIVE_MESSAGES );
+                                StandardCodes::ERROR_POLICY_VIOLATION );
 
         m.getSender()->sendMessage(error_message);
     }
+}
+
+bool Actor::adheresToMessagingPolicy(const Message& m) const
+{
+    return  this->hasPublicQueue() ||
+            m.getType() == Message::Type::START ||
+            m.getType() == Message::Type::STOP;
 }
 
 URA_RTL_END

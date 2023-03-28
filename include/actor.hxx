@@ -2,7 +2,6 @@
 
 #include "rtl.hxx"
 #include "message.hxx"
-#include "messaging_policy.hxx"
 #include "message_receiver.hxx"
 
 URA_RTL_BEGIN
@@ -70,22 +69,12 @@ protected:
      */
     virtual void sendMessageInternal(Message& m) = 0;
 
-    /**
-     * @brief Set the messaging policy for the actor
-     * 
-     * @param policy The new policy to use
-     */
-    void setMessagingPolicy(const MessagingPolicy::Policy& policy);
+    virtual bool adheresToMessagingPolicy(const Message& m) const;
 
 private:
     Type _type;
     bool _use_queue;
     bool _has_public_queue;
-    /**
-     * @brief The messaging policy for the actor.
-     *
-     */
-    const MessagingPolicy::Policy* _messaging_policy { &MessagingPolicy::DEFAULT_POLICY };
 };
 
 URA_RTL_END

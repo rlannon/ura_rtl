@@ -1,8 +1,8 @@
 #include "timer.hxx"
-#include "codes/error.hxx"
-#include "codes/response.hxx"
+#include "codes.hxx"
 
 #include <any>
+#include <chrono>
 
 URA_RTL_BEGIN
 
@@ -11,7 +11,14 @@ void Timer::processEventLoop()
     while (_running)
     {
         onExecute();
-        std::this_thread::sleep_for(_interval);
+        
+        {
+            std::unique_lock<std::mutex> lock(_done_mx);
+            _done_cv.wait_until(lock, std::chrono::system_clock::now() + _interval, [&]() -> bool
+            {
+                return !_running || hasUrgentMessage();
+            });
+        }
     }
 
     return;
@@ -46,10 +53,20 @@ void Timer::sendMessageInternal(Message& m)
                     nullptr,
                     Message::Type::RESPONSE,
                     0,
-                    Codes::Response::Acknowledge);
+                    StandardCodes::ACKNOWLEDGE);
 
         m.getReturnAddress()->sendMessage(ack);
     }
+}
+
+bool Timer::hasUrgentMessage() const
+{
+    return false;
+}
+
+void Timer::notifyThreadUrgentMessage()
+{
+    _done_cv.notify_one();
 }
 
 void Timer::start()
@@ -57,6 +74,7 @@ void Timer::start()
     {
         std::lock_guard<std::mutex> guard(_running_lock);
         _running = true;
+        notifyThreadUrgentMessage();
     }
 
     _thread = std::thread(&Timer::processEventLoop, this);
@@ -67,6 +85,7 @@ void Timer::stop()
     {
         std::lock_guard<std::mutex> guard(_running_lock);
         _running = false;
+        notifyThreadUrgentMessage();
     }
 
     _thread.join();

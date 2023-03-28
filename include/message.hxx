@@ -2,6 +2,7 @@
 
 #include "rtl.hxx"
 #include "message_receiver.hxx"
+#include "priority.hxx"
 
 #include <any>
 
@@ -67,6 +68,11 @@ public:
         return _code;
     }
 
+    uint8_t getPriority() const
+    {
+        return _priority;
+    }
+
     Message copy() const
     {
         return Message(*this);
@@ -77,7 +83,12 @@ public:
 
     Message(const Message& other);
     Message(Message&& other);
-    Message(Actor* sender, MessageReceiver* return_address, Type type, std::any value, unsigned int code);
+    Message(Actor* sender,
+            MessageReceiver* return_address,
+            const Type type,
+            std::any value,
+            const unsigned int code,
+            const uint8_t priority=priority::MEDIUM);
     
     ~Message();
 
@@ -88,6 +99,7 @@ private:
     std::any _value;
     Type _type;
     unsigned int _code;
+    uint8_t _priority;
 };
 
 URA_RTL_END
