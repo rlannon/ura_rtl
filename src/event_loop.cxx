@@ -6,8 +6,6 @@ URA_RTL_BEGIN
 
 void EventLoop::sendMessageInternal(Message& m)
 {
-    // todo: call notifyThreadUrgentMessage() if we have an urgent message...
-
     if (!running() && 
         m.getType() == Message::Type::START &&
         m.getCode() == StandardCodes::START_ACTOR)
@@ -23,7 +21,16 @@ void EventLoop::sendMessageInternal(Message& m)
     else
     {
         std::lock_guard<std::mutex> guard(_queue_lock);
-        _queue.push_back(m);
+
+        if (m.getPriority() == priority::URGENT)
+        {
+            notifyThreadUrgentMessage();
+            _queue.push_front(m);
+        }
+        else
+        {
+            _queue.push_back(m);
+        }
     }
 }
 
@@ -45,6 +52,18 @@ void EventLoop::onExecute()
             m.getReturnAddress()->sendMessage(response);
         }
     }
+}
+
+bool EventLoop::hasUrgentMessage()
+{
+    std::lock_guard<std::mutex> guard(_queue_lock);
+
+    if (_queue.empty())
+    {
+        return false;
+    }
+
+    return _queue.front().getPriority() == priority::URGENT;
 }
 
 EventLoop::EventLoop(const std::chrono::milliseconds interval)

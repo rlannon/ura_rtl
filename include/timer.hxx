@@ -33,7 +33,7 @@ protected:
      */
     virtual void onExecute() = 0;
 
-    virtual bool hasUrgentMessage() const;
+    virtual bool hasUrgentMessage();
     void notifyThreadUrgentMessage();
 
     Timer(  const std::chrono::milliseconds interval,

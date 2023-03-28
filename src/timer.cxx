@@ -59,7 +59,7 @@ void Timer::sendMessageInternal(Message& m)
     }
 }
 
-bool Timer::hasUrgentMessage() const
+bool Timer::hasUrgentMessage()
 {
     return false;
 }

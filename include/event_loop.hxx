@@ -38,6 +38,13 @@ protected:
      * @return Message The thread's response to the message.
      */
     virtual Message handleMessage(Message& message) = 0;
+    /**
+     * @brief Whether there is an urgent message in the queue.
+     * 
+     * @return true If there is an urgent message waiting
+     * @return false If there isn't
+     */
+    virtual bool hasUrgentMessage() override final;
 
 public:
     EventLoop(const std::chrono::milliseconds interval);
