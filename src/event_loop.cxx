@@ -4,18 +4,16 @@
 
 URA_RTL_BEGIN
 
-using ura::messaging::Message;
-
-void EventLoop::sendMessageInternal(Message& m)
+void EventLoop::sendMessageInternal(messaging::Message& m)
 {
     if (!running() && 
-        m.getType() == Message::Type::START &&
+        m.getType() == messaging::Message::Type::START &&
         m.getCode() == StandardCodes::START_ACTOR)
     {
         start(m.getPriority());
     }
     else if (running() &&
-            m.getType() == Message::Type::STOP &&
+            m.getType() == messaging::Message::Type::STOP &&
             m.getCode() == StandardCodes::STOP_ACTOR)
     {
         stop(m.getPriority());
@@ -24,7 +22,7 @@ void EventLoop::sendMessageInternal(Message& m)
     {
         std::lock_guard<std::mutex> guard(_queue_lock);
 
-        if (m.getPriority() == ura::messaging::priority::URGENT)
+        if (m.getPriority() == messaging::priority::URGENT)
         {
             notifyThreadUrgentMessage();
             _queue.push_front(m);
@@ -44,10 +42,10 @@ void EventLoop::onExecute()
 
     while (!_queue.empty())
     {
-        Message m = _queue.front();
+        messaging::Message m = _queue.front();
         _queue.pop_front();
         
-        Message response = handleMessage(m);
+        messaging::Message response = handleMessage(m);
 
         if (m.getReturnAddress())
         {
@@ -65,7 +63,7 @@ bool EventLoop::hasUrgentMessage()
         return false;
     }
 
-    return _queue.front().getPriority() == ura::messaging::priority::URGENT;
+    return _queue.front().getPriority() == messaging::priority::URGENT;
 }
 
 EventLoop::EventLoop(const std::chrono::milliseconds interval)
