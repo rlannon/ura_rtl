@@ -2,16 +2,17 @@
 
 #include "rtl.hxx"
 #include "actor.hxx"
+#include "../messaging/include/message.hxx"
 
 URA_RTL_BEGIN
 
 class Listener: public Actor
 {
     virtual void processEventLoop() override;   /**< Not relevant for class */
-    virtual void start(const uint8_t priority=priority::URGENT) override;  /**< Not relevant for class */
-    virtual void stop(const uint8_t priority=priority::URGENT) override;   /**< Not relevant for class */
+    virtual void start(const uint8_t priority=ura::messaging::priority::URGENT) override;  /**< Not relevant for class */
+    virtual void stop(const uint8_t priority=ura::messaging::priority::URGENT) override;   /**< Not relevant for class */
 
-    virtual void sendMessageInternal(Message& m) override;
+    virtual void sendMessageInternal(ura::messaging::Message& m) override;
 
 protected:
     /**
@@ -22,7 +23,7 @@ protected:
      * 
      * @param message 
      */
-    virtual void handleMessage(Message& message) = 0;
+    virtual void handleMessage(ura::messaging::Message& message) = 0;
 
 public:
     Listener();

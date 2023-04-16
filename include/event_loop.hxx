@@ -2,7 +2,7 @@
 
 #include "rtl.hxx"
 #include "actor.hxx"
-#include "message.hxx"
+#include "../messaging/include/message.hxx"
 #include "timer.hxx"
 
 #include <deque>
@@ -12,10 +12,10 @@ URA_RTL_BEGIN
 
 class EventLoop: public Timer
 {
-    std::deque<Message> _queue;   /**< The actor's message queue */
+    std::deque<ura::messaging::Message> _queue;   /**< The actor's message queue */
     std::mutex _queue_lock;
     
-    virtual void sendMessageInternal(Message& m) override;
+    virtual void sendMessageInternal(ura::messaging::Message& m) override;
     virtual void onExecute() override;
 
 protected:
@@ -37,7 +37,7 @@ protected:
      * @param message The message to process.
      * @return Message The thread's response to the message.
      */
-    virtual Message handleMessage(Message& message) = 0;
+    virtual ura::messaging::Message handleMessage(ura::messaging::Message& message) = 0;
     /**
      * @brief Whether there is an urgent message in the queue.
      * 

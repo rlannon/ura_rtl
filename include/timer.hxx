@@ -21,7 +21,7 @@ private:
     std::mutex _done_mx;
 
     virtual void processEventLoop() override;
-    virtual void sendMessageInternal(Message& m) override;
+    virtual void sendMessageInternal(ura::messaging::Message& m) override;
 
 protected:
     /**
@@ -42,8 +42,8 @@ protected:
             const bool has_public_queue );
 
 public:
-    virtual void start(const uint8_t priority=priority::URGENT) override final;
-    virtual void stop(const uint8_t priority=priority::URGENT) override final;
+    virtual void start(const uint8_t priority=ura::messaging::priority::URGENT) override final;
+    virtual void stop(const uint8_t priority=ura::messaging::priority::URGENT) override final;
 
     bool running() const
     {

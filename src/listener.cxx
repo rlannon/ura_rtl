@@ -8,7 +8,7 @@ void Listener::start(const uint8_t priority) { }
 
 void Listener::stop(const uint8_t priority) { }
 
-void Listener::sendMessageInternal(Message& m)
+void Listener::sendMessageInternal(ura::messaging::Message& m)
 {
     handleMessage(m);
 }

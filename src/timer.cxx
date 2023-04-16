@@ -6,6 +6,8 @@
 
 URA_RTL_BEGIN
 
+using ura::messaging::Message;
+
 void Timer::processEventLoop()
 {
     while (_running)
@@ -49,8 +51,7 @@ void Timer::sendMessageInternal(Message& m)
     //
     if (m.getReturnAddress())
     {
-        Message ack(this,
-                    nullptr,
+        Message ack(nullptr,
                     Message::Type::RESPONSE,
                     0,
                     StandardCodes::ACKNOWLEDGE);
@@ -75,7 +76,7 @@ void Timer::start(const uint8_t priority)
         std::lock_guard<std::mutex> guard(_running_lock);
         _running = true;
         
-        if (priority==priority::URGENT)
+        if (priority == ura::messaging::priority::URGENT)
         {
             notifyThreadUrgentMessage();
         }
@@ -90,7 +91,7 @@ void Timer::stop(const uint8_t priority)
         std::lock_guard<std::mutex> guard(_running_lock);
         _running = false;
         
-        if (priority==priority::URGENT)
+        if (priority == ura::messaging::priority::URGENT)
         {
             notifyThreadUrgentMessage();
         }

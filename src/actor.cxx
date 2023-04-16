@@ -5,6 +5,9 @@
 
 URA_RTL_BEGIN
 
+using ura::messaging::Message;
+using ura::messaging::MessageReceiver;
+
 Actor::Actor(const Type type, const bool use_queue, const bool has_public_queue)
     : MessageReceiver(MessageReceiver::Type::ACTOR)
     , _type(type)
@@ -21,13 +24,12 @@ void Actor::sendMessage(Message& m)
     }
     else
     {
-        Message error_message(  this,
-                                nullptr,
+        Message error_message(  nullptr,
                                 Message::Type::ERROR,
                                 std::string("Message not allowed according to actor messaging policy"),
                                 StandardCodes::ERROR_POLICY_VIOLATION );
 
-        m.getSender()->sendMessage(error_message);
+        m.getReturnAddress()->sendMessage(error_message);
     }
 }
 
