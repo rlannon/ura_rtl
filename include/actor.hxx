@@ -1,9 +1,9 @@
 #pragma once
 
 #include "rtl.hxx"
-#include "../messaging/include/message.hxx"
-#include "../messaging/include/message_receiver.hxx"
-#include "../messaging/include/priority.hxx"
+#include "message.hxx"
+#include "message_receiver.hxx"
+#include "priority.hxx"
 
 URA_RTL_BEGIN
 

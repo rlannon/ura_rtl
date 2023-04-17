@@ -2,7 +2,7 @@
 
 #include "rtl.hxx"
 #include "actor.hxx"
-#include "../messaging/include/message.hxx"
+#include "message.hxx"
 
 URA_RTL_BEGIN
 
